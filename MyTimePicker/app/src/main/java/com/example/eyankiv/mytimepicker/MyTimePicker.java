@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -14,8 +15,9 @@ import android.widget.TextView;
 
 public class MyTimePicker extends LinearLayout {
 
-    private int hour = 20;
+    private int hour;
     private int minute;
+
 
     public MyTimePicker(Context context) {
         super(context);
@@ -34,88 +36,53 @@ public class MyTimePicker extends LinearLayout {
         this.addView(rowNumbers,layoutParams);
         this.addView(rowBottom, layoutParams);
 
-
+        //create the time view:
+        //Hours text view
+        final TextView hourDisp = new TextView(context);
+        hourDisp.setTextSize(35);
+        hourDisp.setText("    "+hour);
+        rowNumbers.addView(hourDisp,layoutParams);
+        //Minutes text view
+        final TextView minDisp = new TextView(context);
+        minDisp.setTextSize(35);
+        minDisp.setText("    " + minute);
+        rowNumbers.addView(minDisp,layoutParams);
         //create the top buttons
         Button plusHourBtn = new Button(context);
         plusHourBtn.setText("+ Hour");
+        plusHourBtn.setTag("plusHrBtn");
         rowTop.addView(plusHourBtn,layoutParams);
-        //Setup button
-        plusHourBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hour++;
-                setHour(hour);
-            }
-        });
-
-        Button plusMinBtn = new Button(context);
-        plusMinBtn.setText("+ Min");
-        rowTop.addView(plusMinBtn,layoutParams);
-        //setup buttons
-        plusMinBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                minute++;
-                setMinute(minute);
-            }
-        });
-
-        //create the time view:
-        //Hours text view
-        TextView hourDisp = new TextView(context);
-        hourDisp.setTextSize(35);
-        hourDisp.setText("    "+  getHour());
-        rowNumbers.addView(hourDisp,layoutParams);
-        //Minutes text view
-        TextView minDisp = new TextView(context);
-        minDisp.setTextSize(35);
-        minDisp.setText("        " +getMinute());
-        rowNumbers.addView(minDisp,layoutParams);
-
-
-        //creat the minus buttons
-        //Hour button
         Button minusHourBtn = new Button(context);
         minusHourBtn.setText("- Hour");
+        minusHourBtn.setTag("minusHrBtn");
         rowBottom.addView(minusHourBtn,layoutParams);
-        //setup button
-        minusHourBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                --hour;
-                setHour(hour);
-            }
-        });
-
         //Min button
         Button minusMinBtn = new Button(context);
         minusMinBtn.setText("- Min");
+        minusMinBtn.setTag("minusMinBtn");
+
         rowBottom.addView(minusMinBtn,layoutParams);
-        minusMinBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                --minute;
-                setMinute(minute);
-            }
-        });
+        Button plusMinBtn = new Button(context);
+        plusMinBtn.setText("+ Min");
+        plusMinBtn.setTag("plusMinBtn");
+        rowTop.addView(plusMinBtn,layoutParams);
+        //setting on click listeners
+        plusHourBtn.setOnClickListener(timeListener);
+        minusHourBtn.setOnClickListener(timeListener);
+        plusMinBtn.setOnClickListener(timeListener);
+        minusMinBtn.setOnClickListener(timeListener);
+
 
     }
 
-    public int getMinute() {
-        return minute;
-    }
+    private OnClickListener timeListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int tag = Integer.valueOf((String) v.getTag());
+            Switch()
 
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    public int getHour() {
-        return hour;
-    }
-
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
+        }
+    };
 
     @Override
     public void setOrientation(int orientation) {
